@@ -164,5 +164,6 @@ for (const button of document.querySelectorAll('[data-game]')) button.addEventLi
   document.querySelectorAll('[data-game]').forEach(b => { const active = b === button; b.classList.toggle('selected', active); b.setAttribute('aria-pressed', active); });
   $('snake-panel').hidden = selected !== 'snake';
   $('racing-panel').hidden = selected !== 'racing';
+  $('baseball-panel').hidden = selected !== 'baseball';
   document.dispatchEvent(new CustomEvent('arcade-select', { detail: selected }));
 });
