@@ -128,7 +128,7 @@ for (const button of document.querySelectorAll('[data-level]')) button.addEventL
 });
 const keys = { ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
 document.addEventListener('keydown', e => {
-  if ($('how-dialog').open || e.metaKey || e.ctrlKey || e.altKey) return;
+  if ($('snake-panel').hidden || $('how-dialog').open || e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.code === 'Space') {
     // Keep normal Space activation for focused controls other than the board.
     if (e.target.closest('button, a, input, select')) return;
@@ -151,8 +151,18 @@ canvas.addEventListener('pointerup', e => {
 canvas.addEventListener('pointercancel', () => touchStart = null);
 window.addEventListener('blur', pause);
 document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
-$('how-button').addEventListener('click', () => { pause(); $('how-dialog').showModal(); });
-document.querySelectorAll('.dialog-close').forEach(button => button.addEventListener('click', () => { $('how-dialog').close(); if (button.classList.contains('play-button')) playAction(); }));
+$('how-button').addEventListener('click', () => { if (!$('snake-panel').hidden) { pause(); $('how-dialog').showModal(); } });
+document.querySelectorAll('#how-dialog .dialog-close').forEach(button => button.addEventListener('click', () => { $('how-dialog').close(); if (button.classList.contains('play-button')) playAction(); }));
 $('how-dialog').addEventListener('click', e => { if (e.target === $('how-dialog')) { const r = $('how-dialog').getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) $('how-dialog').close(); } });
 new ResizeObserver(resizeBoard).observe($('board-wrap'));
 updateScores(); resizeBoard();
+
+for (const button of document.querySelectorAll('[data-game]')) button.addEventListener('click', () => {
+  if (button.classList.contains('selected')) return;
+  const selected = button.dataset.game;
+  pause();
+  document.querySelectorAll('[data-game]').forEach(b => { const active = b === button; b.classList.toggle('selected', active); b.setAttribute('aria-pressed', active); });
+  $('snake-panel').hidden = selected !== 'snake';
+  $('racing-panel').hidden = selected !== 'racing';
+  document.dispatchEvent(new CustomEvent('arcade-select', { detail: selected }));
+});

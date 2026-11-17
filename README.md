@@ -1,6 +1,6 @@
 # Pocket Arcade
 
-A responsive, browser-based arcade with one complete game: Snake. Built with HTML, CSS, and JavaScript. No packages to install, account to create, or build step.
+A responsive, browser-based arcade with two complete games: Snake and Road Rush. Built with HTML, CSS, and JavaScript. No packages to install, account to create, or build step.
 
 ## Run locally
 
@@ -23,7 +23,18 @@ Open http://localhost:3000. To choose another port, run `PORT=3001 npm start`.
 - Sound starts muted; use the music button to enable it.
 - Personal bests are stored separately for each difficulty in this browser. Private browsing or browser storage restrictions may prevent saving.
 
-Block Drop and Memory Match are marked as coming soon; Snake is the playable first release.
+## Road Rush
+
+Select **Road Rush** in the game picker, then click **Hit the road** or press **Space**.
+
+- Steer with **left/right arrows**, **A/D**, horizontal swipes, or the steering buttons. Each press changes one lane.
+- The car accelerates automatically from 150 to 300 km/h. Dodge all traffic; a collision ends the drive.
+- Drive as far as possible. The scoreboard tracks meters, speed, and cars overtaken.
+- Press **Space** or pause to take a break. Restart or **Drive again** for another run.
+- Switching games, opening instructions, leaving the window, or hiding the tab pauses the current run.
+- Your best distance is stored in this browser separately from Snake records.
+
+Block Drop and Memory Match are marked as coming soon.
 
 ## Check game rules
 
@@ -37,7 +48,8 @@ The tests cover food, scoring, growth, input buffering, wall and body collisions
 
 - `index.html`, `styles.css`: responsive hub and game UI
 - `engine.js`: game rules, independent of the browser
-- `app.js`: rendering, controls, audio, and local records
+- `app.js`: Snake rendering, controls, audio, local records, and game selection
+- `racing-engine.js`, `racing.js`: Road Rush simulation, canvas rendering, controls, and records
 - `server.mjs`: dependency-free local server
 
 The site needs no external services. Google Fonts are optional; system fonts are used offline. Serve the files over HTTP rather than opening `index.html` directly because the game uses JavaScript modules.
